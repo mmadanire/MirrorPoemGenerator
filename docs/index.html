@@ -196,11 +196,14 @@
                 }
                 return poem;
                 }
-                // writePoem(normalized text or word corpus & number of lines)
-                randomPoem = writePoem(text, 5);
+
+                // function callRandomPoem() {
+                //  randomPoem = writePoem(text, 5);
+                //  document.getElementById("myPoem").innerHTML = randomPoem;
+                // }
 
                 function callRandomPoem() {
-                    document.getElementById("myPoem").innerHTML = randomPoem;
+                    document.getElementById("myPoem").innerHTML = writePoem(text, 5);
                 }
             </script>
         
