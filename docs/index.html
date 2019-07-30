@@ -62,9 +62,6 @@
         
             <script>
                 /*
-                Project #2 - Romance.js
-                Mercedes Madanire
-                Bootcamp Prep
                 POEM GENERATOR
                 */
 
@@ -72,130 +69,82 @@
                 // “And I can’t help but stare, cause I see truth somewhere in your eyes.” ~Justin Timberlake (Mirrors)
                 let text = "Aren't you something to admire, 'cause your shine is something like a mirror And I can't help but notice, you reflect in this heart of mine If you ever feel alone and the glare makes me hard to find Just know that I'm always parallel on the other side 'Cause with your hand in my hand and a pocket full of soul I can tell you there's no place we couldn't go Just put your hand on the glass, I'm here trying to pull you through You just gotta be strong Cause I don't wanna lose you now I'm looking right at the other half of me The vacancy that sat in my heart Is a space that now you hold Show me how to fight for now And I'll tell you, baby, it was easy Coming back into you once I figured it out You were right here all along It's like you're my mirror My mirror…";
 
-                // TEST SIMPLE TEXT
-                //let text = "Ever since I left the city, you, you, you You and me we just don't get along";
-
-
+               
                 // Function parseText that accepts a string and returns an array of the words in the string uniformly formatted with no numbers or punctuation.
 
                 function parseText(text) {
-                // normalize text
-                
-                // Note: adding the char ' to the string of items to replace turns aren't into arent and I'll into ill (Regex: // everything in between, g is global flag)
-                //Test: cleanText = text.split('/,').join('/')
-                // space character ^
-                let cleanText = text.toLowerCase().replace(/[".,]/g,'');
-
-                //console.log(cleanText);
-                let uniformTextArray = cleanText.split(' '); // split string on space
-                //console.log(txtArr);
-                return uniformTextArray;
-                }
-
-                parseText(text);
-                console.log(parseText(text));
-                // -> [ 'ever', 'since', 'i', 'left', 'the', 'city', 'you', 'you', 'you', 'you', 'and', 'me', 'we', 'just', 'dont', 'get', 'along' ]
-
-
-                // Function that uses the uniformTextArray of words to generate a Markov Chain: the dictionary of all the unique words in our corpus, and an array of all the words that follow it.
-
-                function generateWordPairs(text) {
-                let finalText = parseText(text);
-                let wordPairs = {};
-                
-                finalText.forEach(function(element, idx, array) {
-                    var nextWord = array[idx + 1];
-                    if (wordPairs[element]) {
-                    wordPairs[element].push(nextWord);
-                    } else {
-                    wordPairs[element] = [nextWord];
+                    // normalize text
+                    let cleanText = text.toLowerCase().replace(/[".,]/g,'');
+                    let uniformTextArray = cleanText.split(' '); // split string on space
+                    return uniformTextArray;
                     }
-                });
-                
-                return wordPairs;
-                }
 
-                let wordPairs = generateWordPairs(text);
-                console.log(wordPairs);
-                /* ->
-                { ever: [ 'since' ],
-                since: [ 'i' ],
-                i: [ 'left' ],
-                left: [ 'the' ],
-                the: [ 'city' ],
-                city: [ 'you' ],
-                you: [ 'you', 'you', 'you', 'and' ],
-                and: [ 'me' ],
-                me: [ 'we' ],
-                we: [ 'just' ],
-                just: [ 'dont' ],
-                dont: [ 'get' ],
-                get: [ 'along' ] }
-                */
+                    parseText(text);
 
-                // Create a function writeLine that takes a Markov Chain or object and a length of words n and returns a line of poetry. writeLine will need a helper function that takes a word and randomly chooses a word from its Markov Chain array. When a word has no entries in it's Markov Chain, the program should choose a new word and continue the line until it meets the word count.
+                    // Function that uses the uniformTextArray of words to generate a Markov Chain: the dictionary of all the unique words in our corpus, and an array of all the words that follow it.
 
-
-                function writeLine(text, length) {
-                // input clean text
-                let parsedText = parseText(text);
-                // input dictionary/ word pairs
-                let markovChain = generateWordPairs(text);
-                let line = '';
-                let randomNumber = Math.floor(Math.random() * parsedText.length);
-                let nextWord = parsedText[randomNumber];
-                line += nextWord + ' ';
-                length--;
-                
-                while (length > 0) {
-                    let possibleNextWords = markovChain[nextWord];   
+                    function generateWordDictionary(text) {
+                    let finalText = parseText(text);
+                    let wordDictionary = {};
                     
-                    if (possibleNextWords === undefined) {
-                        randomNumber = Math.floor(Math.random() * parsedText.length);
-                        nextWord = parsedText[randomNumber];
-                        line += nextWord + ' ';
-                        length--;
-                    } else if(possibleNextWords.length > 0) {
-                    let nextWordIndex = Math.floor(Math.random() *  possibleNextWords.length);
-                    nextWord = possibleNextWords[nextWordIndex];
+                    finalText.forEach(function(element, idx, array) {
+                        var nextWord = array[idx + 1];
+                        if (wordDictionary[element]) {
+                        wordDictionary[element].push(nextWord);
+                        } else {
+                        wordDictionary[element] = [nextWord];
+                        }
+                    });
+                    
+                    return wordDictionary;
+                    }
+
+                    let wordDictionary = generateWordDictionary(text);
+
+                    // Create a function writeLine that takes a Markov Chain or object and a length of words n and returns a line of poetry. writeLine will need a helper function that takes a word and randomly chooses a word from its Markov Chain array. When a word has no entries in it's Markov Chain, the program should choose a new word and continue the line until it meets the word count.
+
+
+                    function writeLine(text, length) {
+                    // input clean text
+                    let parsedText = parseText(text);
+                    // input dictionary/ word pairs
+                    let markovChain = generateWordDictionary(text);
+                    let line = '';
+                    let randomNumber = Math.floor(Math.random() * parsedText.length);
+                    let nextWord = parsedText[randomNumber];
                     line += nextWord + ' ';
                     length--;
-                    } 
-                }
-                    /*
-                    String codes:
-                    \0 The NUL character (\u0000)
-                    \b Backspace (\u0008)
-                    \t Horizontal tab (\u0009)
-                    \n Newline (\u000A)
-                    \v Vertical tab (\u000B)
-                    \f Form feed (\u000C)
-                    \r Carriage return (\u000D)
-                    \" Double quote (\u0022)
-                    \' Apostrophe or single quote (\u0027)
-                    \\ Backslash (\u005C)
-                    \x XX The Latin-1 character specified by the two hexadecimal digits XX
-                    \u XXXX The Unicode character specified by the four hexadecimal digits XXXX
-                    */
-                return line  + '\n';
-                }
+                    
+                    while (length > 0) {
+                        let followingWords = markovChain[nextWord];   
+                        
+                        if (followingWords === undefined) {
+                            randomNumber = Math.floor(Math.random() * parsedText.length);
+                            nextWord = parsedText[randomNumber];
+                            line += nextWord + ' ';
+                            length--;
+                        } else if(followingWords.length > 0) {
+                        let nextWordIdx = Math.floor(Math.random() *  followingWords.length);
+                        nextWord = followingWords[nextWordIdx];
+                        line += nextWord + ' ';
+                        length--;
+                        } 
+                    }
+                    return line  + '\n';
+                    }
 
-                //console.log(writeLine(text, 5));
-
-                // Function generatePoem accepts two parameters: 1) a word corpus and 2) number of lines. Inside the function, use the functions above to generate a poem with the number of lines specified.
-
-                function writePoem(text, lines) {
-                let poem = '';
-                
-                for (let i = 0; i < lines; i++) {
-                    //pass a random number (within a reasonable range) into writeLine.
-                    // Math.random * 8 plus 1 equals number from 1 to 9
-                    // Math.floor converts the output to an integer
-                    poem += writeLine(text, Math.floor(Math.random() * 8 + 1))
-                    // break single string into lines with random amount of words
-                }
-                return poem;
-                }
+                    function writePoem(text, lines) {
+                    let poem = '';
+                    
+                    for (let i = 0; i < lines; i++) {
+                        //pass a random number (within a reasonable range) into writeLine.
+                        // Math.random * 8 plus 1 equals number from 1 to 9
+                        // Math.floor converts the output to an integer
+                        poem += writeLine(text, Math.floor(Math.random() * 8 + 1))
+                        // break single string into lines with random amount of words
+                    }
+                    return poem;
+                    }
 
                 // function callRandomPoem() {
                 //  randomPoem = writePoem(text, 5);
